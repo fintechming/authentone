@@ -86,7 +86,7 @@ const T = {
       ["这又是一个绕过 AI 检测器的工具吗？", "不是。AuthenTone 不帮你“骗过”谁，它帮你保住自己的声音——去掉 AI 味，留下你的语气。"],
       ["我的文字会被拿去训练吗？", "不会。你的写作 DNA 只存在你的账号里，可随时删除，不会用于训练共享模型。"],
       ["支持中文吗？", "支持。英文调校最细，但写作 DNA 与语言无关，中文稿同样保真。"],
-      ["免费版和专业版有什么区别？", "免费版每天可改写 5 次（匿名 3 次），专业版每天 100 次，并可云端保存写作 DNA。"],
+      ["这是免费的吗？", "完全免费：每天 3 次匿名改写（登录后 5 次）。如果你觉得好用，欢迎打赏支持服务器与 API 成本，帮我们保持免费。"],
     ],
     ctaTitle: "你的想法，你的声音，只是更快。",
     ctaBtn: "打开交互演示",
@@ -94,6 +94,31 @@ const T = {
     err_quota_exceeded: "今日免费次数已用完（5/5），明天再来。",
     err_auth: "登录链接无效或已过期，请重新发送。",
     err_failed: "请求失败，请稍后重试。",
+    donateBtn: "☕ 请作者喝杯咖啡",
+    donateShort: "打赏",
+    donateTitle: "打赏支持 AuthenTone",
+    donateDesc: "完全免费使用。如果它帮到了你，欢迎打赏支持服务器与 API 成本，帮我们一直免费下去。",
+    donateNudge: "觉得好用？请作者喝杯咖啡，帮我们保持免费。",
+    donateAlipay: "支付宝",
+    donateWechat: "微信支付",
+    donateUsdt: "USDT",
+    donateZa: "ZA Bank",
+    donateUsdtNote: "TRC20 链地址（手续费低），复制后从你的钱包转账：",
+    donateZaNote: "香港 ZA Bank 转账：",
+    donateZaAcct: "账号",
+    donateQrMissing: "收款码稍后补充",
+    copyAddr: "复制地址",
+    addrCopied: "已复制",
+    close: "关闭",
+    donateCardName: "打赏支持",
+    donateCardPrice: "随意",
+    donateCardTag: "用爱发电",
+    donateCardF: ["完全免费使用", "打赏用于服务器与 API 成本", "帮助保持免费", "每一份支持都算数"],
+    donateCardCta: "☕ 打赏",
+    pricingTitleDonate: "完全免费，用爱发电。",
+    navTip: "打赏",
+    faqFreeQ: "这是免费的吗？",
+    faqFreeA: "完全免费：每天 3 次匿名改写（登录后 5 次）。如果你觉得好用，欢迎打赏支持服务器与 API 成本，帮我们保持免费。",
   },
   en: {
     tagline: "Write like you. Not like everyone's AI.",
@@ -177,7 +202,7 @@ const T = {
       ["Is this another AI-detector bypass tool?", "No. AuthenTone doesn't help you “fool” anyone — it keeps your voice: removes the AI-ness, keeps your tone."],
       ["Will my text be used for training?", "No. Your writing DNA lives only in your account, deletable anytime, never used to train shared models."],
       ["Does it support Chinese?", "Yes. English is the most tuned, but writing DNA is language-independent — Chinese drafts keep their voice too."],
-      ["What's the difference between Free and Pro?", "Free: 5 rewrites/day (3 anonymously). Pro: 100/day with writing DNA saved to your profile."],
+      ["Is it free?", "Yes — 3 anonymous rewrites/day (5 after login). Tips are welcome to cover server & API costs and keep it free."],
     ],
     ctaTitle: "Your ideas. Your voice. Just faster.",
     ctaBtn: "Open the live demo",
@@ -185,6 +210,31 @@ const T = {
     err_quota_exceeded: "Daily free rewrites used up (5/5). Come back tomorrow.",
     err_auth: "Login link invalid or expired — please resend it.",
     err_failed: "Request failed, please try again later.",
+    donateBtn: "☕ Buy me a coffee",
+    donateShort: "Tip",
+    donateTitle: "Support AuthenTone",
+    donateDesc: "Free forever. If it helped you, tips cover our server & API costs and keep it free.",
+    donateNudge: "Useful? Buy the author a coffee and help keep it free.",
+    donateAlipay: "Alipay",
+    donateWechat: "WeChat Pay",
+    donateUsdt: "USDT",
+    donateZa: "ZA Bank",
+    donateUsdtNote: "TRC20 address (low fees) — copy and transfer from your wallet:",
+    donateZaNote: "Transfer via Hong Kong ZA Bank:",
+    donateZaAcct: "Account",
+    donateQrMissing: "QR code coming soon",
+    copyAddr: "Copy address",
+    addrCopied: "Copied",
+    close: "Close",
+    donateCardName: "Tip the author",
+    donateCardPrice: "Any amount",
+    donateCardTag: "Powered by tips",
+    donateCardF: ["Free forever", "Tips cover server & API costs", "Help keep it free", "Every tip counts"],
+    donateCardCta: "☕ Buy me a coffee",
+    pricingTitleDonate: "Free forever, powered by your tips.",
+    navTip: "Tips",
+    faqFreeQ: "Is it free?",
+    faqFreeA: "Yes — 3 anonymous rewrites/day (5 after login). Tips are welcome to cover server & API costs and keep it free.",
   },
 };
 
@@ -261,8 +311,29 @@ button.outline{background:transparent;border:1px solid #b3402a;color:#b3402a;bor
 @media(max-width:640px){.grid3,.grid4{grid-template-columns:1fr}.price{grid-template-columns:1fr}.nav{display:none}}
 `;
 
-export default function Page() {
-  const [lang, setLang] = useState("zh");
+// ---- 打赏配置：把占位换成你的真实信息 ----
+// USDT 收款地址（建议 TRC20 链，手续费低）
+const USDT_TRC20 = "TXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+// ZA Bank（香港）：收款户名 + 账号
+const ZA_BANK_NAME = "LI CHANGMING";
+const ZA_BANK_ACCT = "000-000000-000";
+// 支付宝 / 微信收款码图片放到 public/ 目录下，文件名如下
+const ALIPAY_QR = "/donate-alipay.png";
+const WECHAT_QR = "/donate-wechat.png";
+
+function Qr({ src, label, missing }) {
+  const [err, setErr] = useState(false);
+  if (err) {
+    return (
+      <div style={{ width: 200, height: 200, borderRadius: 12, background: "#faf6ee", border: "1px dashed #d8cfbc", display: "flex", alignItems: "center", justifyContent: "center", color: "#a09a8c", fontSize: 13, textAlign: "center", padding: 16 }}>
+        {missing}
+      </div>
+    );
+  }
+  return <img src={src} alt={label} style={{ width: 200, height: 200, borderRadius: 12, border: "1px solid #e8dfcc" }} onError={() => setErr(true)} />;
+}
+
+export default function Page() {  const [lang, setLang] = useState("zh");
   const t = T[lang];
   const [user, setUser] = useState(null); // {email, plan} or null
   const [authChecked, setAuthChecked] = useState(false);
@@ -283,6 +354,9 @@ export default function Page() {
   const [notice, setNotice] = useState("");
   const [needLogin, setNeedLogin] = useState(false); // anon quota exhausted
   const [anonLeft, setAnonLeft] = useState(null); // remaining anon rewrites today
+  const [showDonate, setShowDonate] = useState(false);
+  const [donateTab, setDonateTab] = useState("alipay");
+  const [addrCopied, setAddrCopied] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -414,6 +488,16 @@ export default function Page() {
     }
   }
 
+  async function copyAddr() {
+    try {
+      await navigator.clipboard.writeText(donateTab === "usdt" ? USDT_TRC20 : ZA_BANK_ACCT);
+      setAddrCopied(true);
+      setTimeout(() => setAddrCopied(false), 1500);
+    } catch {
+      setError("err_failed");
+    }
+  }
+
   return (
     <>
       <style>{CSS}</style>
@@ -425,7 +509,7 @@ export default function Page() {
           <div className="nav">
             <a href="#how">{t.navHow}</a>
             <a href="#demo">{t.navDemo}</a>
-            <a href="#pricing">{t.navPricing}</a>
+            <a href="#pricing">{t.navTip}</a>
           </div>
           <div className="topright">
             <div className="lang">
@@ -523,11 +607,9 @@ export default function Page() {
               )}
             </span>
             <span style={{ display: "flex", gap: 8 }}>
-              {user.plan !== "pro" && (
-                <button className="act" style={{ padding: "8px 18px", fontSize: 14 }} disabled={upgradeBusy} onClick={upgrade}>
-                  {upgradeBusy ? t.upgrading : t.upgrade}
-                </button>
-              )}
+              <button className="act" style={{ padding: "8px 18px", fontSize: 14 }} onClick={() => setShowDonate(true)}>
+                {t.donateBtn}
+              </button>
               <button className="ghost" onClick={logout}>
                 {t.logout}
               </button>
@@ -641,6 +723,15 @@ export default function Page() {
                 </div>
               </div>
             )}
+
+            {result && (
+              <div className="card" style={{ textAlign: "center" }}>
+                <p className="desc">{t.donateNudge}</p>
+                <button className="act" onClick={() => setShowDonate(true)}>
+                  {t.donateBtn}
+                </button>
+              </div>
+            )}
           </>
         </div>
 
@@ -673,7 +764,7 @@ export default function Page() {
         </div>
 
         <div className="section" id="pricing">
-          <h2 className="sec">{t.pricingTitle}</h2>
+          <h2 className="sec">{t.pricingTitleDonate}</h2>
           <div className="price">
             <div className="pcard">
               <h3>{t.freeName}</h3>
@@ -687,24 +778,12 @@ export default function Page() {
               </button>
             </div>
             <div className="pcard hot">
-              <span className="tag">{t.proTag}</span>
-              <h3>{t.proName}</h3>
-              <div className="amt">{t.proPrice}<small>{t.proPer}</small></div>
-              <ul>{t.proF.map((f, i) => <li key={i}>{f}</li>)}</ul>
-              <button
-                className="act"
-                disabled={upgradeBusy}
-                onClick={() => {
-                  if (user) upgrade();
-                  else {
-                    setNeedLogin(true);
-                    setTimeout(() => {
-                      document.getElementById("logincard")?.scrollIntoView({ behavior: "smooth" });
-                    }, 100);
-                  }
-                }}
-              >
-                {upgradeBusy ? t.upgrading : t.proCta}
+              <span className="tag">{t.donateCardTag}</span>
+              <h3>{t.donateCardName}</h3>
+              <div className="amt">{t.donateCardPrice}</div>
+              <ul>{t.donateCardF.map((f, i) => <li key={i}>{f}</li>)}</ul>
+              <button className="act" onClick={() => setShowDonate(true)}>
+                {t.donateCardCta}
               </button>
             </div>
           </div>
@@ -745,7 +824,63 @@ export default function Page() {
           </div>
         )}
 
-        <div className="foot">{t.footer}</div>
+        {showDonate && (
+          <div
+            style={{ position: "fixed", inset: 0, background: "rgba(43,38,32,.45)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 50, padding: 20 }}
+            onClick={() => setShowDonate(false)}
+          >
+            <div
+              className="card"
+              style={{ maxWidth: 430, width: "100%", margin: 0, textAlign: "center" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 style={{ marginBottom: 8 }}>{t.donateTitle}</h2>
+              <p className="desc">{t.donateDesc}</p>
+              <div className="seg" style={{ justifyContent: "center", marginBottom: 16 }}>
+                {[["alipay", t.donateAlipay], ["wechat", t.donateWechat], ["usdt", t.donateUsdt], ["za", t.donateZa]].map(([k, v]) => (
+                  <button key={k} className={donateTab === k ? "on" : ""} onClick={() => { setDonateTab(k); setAddrCopied(false); }}>
+                    {v}
+                  </button>
+                ))}
+              </div>
+              {(donateTab === "alipay" || donateTab === "wechat") && (
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+                  <Qr src={donateTab === "alipay" ? ALIPAY_QR : WECHAT_QR} label={donateTab === "alipay" ? t.donateAlipay : t.donateWechat} missing={t.donateQrMissing} />
+                </div>
+              )}
+              {donateTab === "usdt" && (
+                <div style={{ marginBottom: 12 }}>
+                  <p className="desc">{t.donateUsdtNote}</p>
+                  <div className="row" style={{ justifyContent: "center", marginTop: 8 }}>
+                    <code style={{ fontSize: 12, wordBreak: "break-all", background: "#faf6ee", padding: "8px 10px", borderRadius: 8, maxWidth: "100%" }}>{USDT_TRC20}</code>
+                  </div>
+                  <div className="row" style={{ justifyContent: "center" }}>
+                    <button className="ghost" onClick={copyAddr}>{addrCopied ? t.addrCopied : t.copyAddr}</button>
+                  </div>
+                </div>
+              )}
+              {donateTab === "za" && (
+                <div style={{ marginBottom: 12 }}>
+                  <p className="desc">{t.donateZaNote}</p>
+                  <p style={{ fontSize: 14, marginTop: 8 }}>{ZA_BANK_NAME}</p>
+                  <div className="row" style={{ justifyContent: "center" }}>
+                    <code style={{ fontSize: 14, background: "#faf6ee", padding: "8px 10px", borderRadius: 8 }}>{ZA_BANK_ACCT}</code>
+                    <button className="ghost" onClick={copyAddr}>{addrCopied ? t.addrCopied : t.copyAddr}</button>
+                  </div>
+                </div>
+              )}
+              <button className="ghost" onClick={() => setShowDonate(false)}>{t.close}</button>
+            </div>
+          </div>
+        )}
+
+        <div className="foot">
+          {t.footer}
+          {" · "}
+          <button onClick={() => setShowDonate(true)} style={{ background: "none", border: "none", cursor: "pointer", color: "#b3402a", fontSize: "inherit", fontFamily: "inherit", textDecoration: "underline" }}>
+            ☕ {t.donateShort}
+          </button>
+        </div>
       </div>
     </>
   );

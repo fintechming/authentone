@@ -178,6 +178,7 @@ export async function POST(req) {
         anonRewritesLeft: Math.max(0, rewritesLeft - 1),
       });
     } catch (err) {
+      console.error("humanize error:", err.code || err.message, err.detail || "");
       if (err.code === "NO_API_KEY") {
         return NextResponse.json({ error: "server_misconfigured" }, { status: 500 });
       }
@@ -224,6 +225,7 @@ export async function POST(req) {
     await bumpRewriteQuota(supabase, user);
     return NextResponse.json({ lang, text: rewritten.trim() });
   } catch (err) {
+    console.error("humanize error:", err.code || err.message, err.detail || "");
     if (err.code === "NO_API_KEY") {
       return NextResponse.json({ error: "server_misconfigured" }, { status: 500 });
     }
